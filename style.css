@@ -1,0 +1,17 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.canvas{
+  display: block;
+}
+
+.tools{
+  width: 95%;
+  margin: 0 auto;
+  min-height: 100px;
+  border-radius: 0 0 10px 10px;
+  background-color: rgba(17,17,17,0.75);
+}
