@@ -101,3 +101,14 @@ li{
 .tools .widths li:nth-child(5)::after{
   width: 10px;
 }
+
+@media (max-width: 435px) {
+  .tools{
+    padding: 4px 0;
+    flex-direction: column;
+    min-height: 120px;
+  }
+  .tools .widths{
+    justify-content: space-between;
+  }
+}
