@@ -24,10 +24,10 @@
     canvas.height = clientHeight - toolsH;
     // canvas 设置
     let ctx = canvas.getContext("2d");
-    ctx.lineJoin = "round";
+    ctx.lineJoin = "round"; // 修改两线段之间的连接
     // 可变化的
     ctx.strokeStyle = "#FFA500";
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 10;
 
     // 控制绘画的属性
     let painting = false;
@@ -35,12 +35,22 @@
 
     // 判断当前是否能使用 触摸 事件
     const flag = "ontouchstart" in document.documentElement;
-    if (flag) {
+    flag ? phonePainting() : windowPainting();
 
-    } else {
-        windowPainting();
+    // 移动端绘画
+    function phonePainting(){
+        canvas.addEventListener("touchstart", (e) => {
+            painting = true;
+            lastPosition = [e.clientX, e.clientY - 100];
+        });
+        canvas.addEventListener("touchmove", (e) => {
+            const {clientX, clientY} = e.touches[0];
+            draw(lastPosition, clientX, clientY - 100);
+            lastPosition = [clientX, clientY - 100];
+        });
     }
 
+    // PC端绘画
     function windowPainting() {
         canvas.addEventListener("mousedown", (e) => {
             painting = true;
