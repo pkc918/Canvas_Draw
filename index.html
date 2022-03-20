@@ -6,8 +6,73 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>土拨鼠画笔</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  土拨鼠
+<div class="container">
+  <div class="tools"></div>
+  <canvas class="canvas"></canvas>
+</div>
+<script>
+    const canvas = document.querySelector(".canvas");
+    const tools = document.querySelector(".tools");
+    // 获取 tools 元素的位置信息
+    const {height: toolsH} = tools.getBoundingClientRect();
+    // 获取 document 元素的宽高
+    const {clientWidth, clientHeight} = document.documentElement;
+    canvas.width = clientWidth;
+    canvas.height = clientHeight - toolsH;
+    // canvas 设置
+    let ctx = canvas.getContext("2d");
+    ctx.lineJoin = "round";
+    // 可变化的
+    ctx.strokeStyle = "#FFA500";
+    ctx.lineWidth = 5;
+
+    // 控制绘画的属性
+    let painting = false;
+    let lastPosition;
+
+    // 判断当前是否能使用 触摸 事件
+    const flag = "ontouchstart" in document.documentElement;
+    if (flag) {
+
+    } else {
+        windowPainting();
+    }
+
+    function windowPainting() {
+        canvas.addEventListener("mousedown", (e) => {
+            painting = true;
+            lastPosition = [e.offsetX, e.offsetY];
+        });
+
+        canvas.addEventListener("mousemove", (e) => {
+            if (painting) {
+                const {offsetX, offsetY} = e;
+                draw(lastPosition, offsetX, offsetY);
+                lastPosition = [offsetX, offsetY];
+            }
+        });
+
+        canvas.addEventListener("mouseup", noPainting);
+
+        canvas.addEventListener("mouseleave", noPainting);
+    }
+
+    // 关闭绘画
+    function noPainting() {
+        painting = false;
+    }
+
+    // 绘画
+    function draw(lastPosition, newX, newY) {
+        ctx.beginPath();
+        ctx.moveTo(lastPosition[0], lastPosition[1]);
+        ctx.lineTo(newX, newY);
+        ctx.closePath();
+        ctx.stroke();
+    }
+</script>
 </body>
 </html>
